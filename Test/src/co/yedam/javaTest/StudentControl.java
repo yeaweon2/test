@@ -19,6 +19,7 @@ public class StudentControl implements StudentInf {
 	public void insert(Student std) {
 		try {
 			stds.add(std);	
+			System.out.println("※ 【 " + std.getStdNm() + " 】 등록되었습니다. ");
 		}catch(Exception e) {
 			System.out.println("※ 입력시 오류발생, 관리자에게 문의해주세요.");
 		}
@@ -30,7 +31,19 @@ public class StudentControl implements StudentInf {
 		boolean chk = false;
 		for(int i = 0; i < stds.size(); i++) {
 			if(stds.get(i).getStdNo() == std.getStdNo()) {
-				stds.set(i, std);
+				if(!std.getStdNm().equals("")) {
+					stds.get(i).setStdNm(std.getStdNm());
+				}
+				 
+				if( std.getStdEngScr() != -1 ) {
+					stds.get(i).setStdEngScr(std.getStdEngScr());	
+				}
+				
+				if( std.getStdMathScr() != -1 ) {
+					stds.get(i).setStdMathScr(std.getStdMathScr());	
+				}
+				
+				//stds.set(i, std);
 				chk = true;
 				break;
 			}

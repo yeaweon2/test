@@ -9,7 +9,7 @@ public class StudentMain {
 	StudentControl srv = new StudentControl(); 
 	
 	public void main() {
-		srv.start();
+		srv.start(); //임시 학생추가
 		while(true) {
 			
 			menuView();
@@ -48,6 +48,21 @@ public class StudentMain {
 		return txt;
 	}
 	
+	public Integer scanEnterkey(String arg) {
+		System.out.print(arg);
+		String txt = scn.nextLine();
+
+		if(txt.equals("")) {	// 수정시 EnterKey값 체크
+			txt = "-1"; 
+		}else {
+			int rangeChk = Integer.parseInt(txt);
+			if(rangeChk < 0 || rangeChk > 100 ) { // 점수범위체크
+				txt = "-2"; 
+			}
+		}
+		return Integer.parseInt(txt);	
+	}
+	
 	public Integer scanInt(String arg) {
 		
 		int txt = 0;
@@ -72,29 +87,41 @@ public class StudentMain {
 		int engScr = scanInt("영어점수 >");
 		int mathScr = scanInt("수학점수 >");
 		
-		Student std = new Student(sel,name,engScr,mathScr);
-		srv.insert(std);
+		if( engScr < 0 || engScr > 100 || mathScr < 0|| mathScr > 100 ) {
+			System.out.println("※ 점수의 범위는 0 ~ 100점 입니다.");
+		}else {
+			Student std = new Student(sel,name,engScr,mathScr);
+			srv.insert(std);	
+		}
+		
 		System.out.println();
 	}
 	
 	public void stdEdit() {
-		int sel = scanInt("학번 >");
+		int sel = scanInt("수정할 학번입력하세요. >");
 		if(srv.chkStd(sel)) {
+			System.out.println("※ 수정하지 않을 시, Enter키 입력하세요. ");
 			String name = scanString("이름 >");
-			int engScr = scanInt("영어점수 >");
-			int mathScr = scanInt("수학점수 >");
-			Student std = new Student(sel,name,engScr,mathScr);
-			boolean chk = srv.update(std);
-			if(chk) {
-				System.out.println("※ 수정이 완료되었습니다.");
+			int engScr = scanEnterkey("영어점수 >");
+			int mathScr = scanEnterkey("수학점수 >");			
+			
+			if(engScr == -2 || mathScr == -2) {
+				System.out.println("※ 점수의 범위는 0 ~ 100점 입니다.");
+			}else {
+				Student std = new Student(sel,name,engScr,mathScr);
+				boolean chk = srv.update(std);
+				if(chk) {
+					System.out.println("※ 수정이 완료되었습니다.");
+				}	
 			}
+			
 		}else {
 			System.out.println("※ 해당 학번은 존재하지 않습니다.");
 		}
 	}
 	
 	public void stdDel() {
-		int sel = scanInt("학번 >");
+		int sel = scanInt("삭제할 학번을 입력하세요. >");
 		
 		if(srv.chkStd(sel)) {
 			boolean chk = srv.delete(sel);
