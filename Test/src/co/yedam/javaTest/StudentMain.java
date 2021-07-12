@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class StudentMain {
 	
-	static Scanner scn = new Scanner(System.in);	
-	static StudentControl srv = new StudentControl(); 
+	Scanner scn = new Scanner(System.in);	
+	StudentControl srv = new StudentControl(); 
 	
-	public static void main(String[] args) {
+	public void main() {
 		srv.start();
 		while(true) {
 			
@@ -35,20 +35,20 @@ public class StudentMain {
 		System.out.println("프로그램 종료.");
 	}
 
-	public static void menuView() {
+	public void menuView() {
 		System.out.println();
 		System.out.println("┏━━━━━━━━━━━━━━━━━━━【 메 뉴 】━━━━━━━━━━━━━━━━━━━	┓");
 		System.out.println("┃ 1.입력 2.수정 3.삭제 4.리스트 5.단건조회 6.분석 7.종료	┃");
 		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 	}
 	
-	public static String scanString(String arg) {
+	public String scanString(String arg) {
 		System.out.print(arg);
 		String txt = scn.nextLine();
 		return txt;
 	}
 	
-	public static Integer scanInt(String arg) {
+	public Integer scanInt(String arg) {
 		
 		int txt = 0;
 		while(true) {
@@ -66,7 +66,7 @@ public class StudentMain {
 		return txt;
 	}	
 	
-	public static void stdInsert() {
+	public void stdInsert() {
 		int sel = scanInt("학번 >");
 		String name = scanString("이름 >");
 		int engScr = scanInt("영어점수 >");
@@ -77,7 +77,7 @@ public class StudentMain {
 		System.out.println();
 	}
 	
-	public static void stdEdit() {
+	public void stdEdit() {
 		int sel = scanInt("학번 >");
 		if(srv.chkStd(sel)) {
 			String name = scanString("이름 >");
@@ -93,7 +93,7 @@ public class StudentMain {
 		}
 	}
 	
-	public static void stdDel() {
+	public void stdDel() {
 		int sel = scanInt("학번 >");
 		
 		if(srv.chkStd(sel)) {
@@ -106,7 +106,7 @@ public class StudentMain {
 		}
 	}
 	
-	public static void stdList() {
+	public void stdList() {
 		List<Student> stds = srv.selectAll();
 		System.out.println("━━━━━━━━━━━━━━━━━━【 학 생 LIST 】━━━━━━━━━━━━━━━━━━");
 		for(Student std : stds) {
@@ -117,7 +117,7 @@ public class StudentMain {
 		System.out.println();
 	}	
 	
-	public static void stdDetailList() {
+	public void stdDetailList() {
 		int sel = scanInt("학번 >");
 		if(srv.chkStd(sel)) {
 			Student std = srv.selectOne(sel);
@@ -134,7 +134,7 @@ public class StudentMain {
 		
 	}
 	
-	public static void stdAnalysis() {
+	public void stdAnalysis() {
 		Student eStd = srv.stdMaxScore("eng");
 		Student mStd = srv.stdMaxScore("math");
 		Student totalStd = srv.stdMaxScore("total");
